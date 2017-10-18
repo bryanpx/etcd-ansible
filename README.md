@@ -83,6 +83,9 @@ vm15 ip=7.0.51.15 private_etcd_ip=192.168.9.15
 ansible_ssh_user=root
 ansible_ssh_pass=Password
 ```
+## Configure remote_user in etcd3.yml 
+Have `remote_user: root`
+
 ## Deploy etcd3 on VMs
 Execute the following: `inv.yml.vmprivateip` is my inventory file.
 

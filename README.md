@@ -1,4 +1,4 @@
-I tested the etcd deployment on host machines with Centos 7.3 and 7.4. I provided inv_ec2.yml, inv_vmpriviateip.yml and inv_vmpublicip.yml as sample inventory files for AWS EC2 and VMs for different scenarios that you need to modify for your environment.
+I tested the etcd deployment on host machines with Centos 7.3 and 7.4. I provided `inv_ec2.yml`, `inv_vmpriviateip.yml` and `inv_vmpublicip.yml` as sample inventory files for AWS EC2 and VMs for different scenarios that you need to modify for your environment.
 
 # Prerequisites
 * Ansible: I used ansible 2.3.2.0 on my control machine.
@@ -20,12 +20,12 @@ Modify /etc/ansible/ansible.cfg to have the following:
 
 `Private_etcd_ip` is usually a private ip or ip of another subnet and is optional. It indicates which network interface is used for etcd installation. If you don't have it, the etcd installation will use the value of `ip`.
 
-Each line is used to specify information for each machine.  
+Each line is used to specify information for one machine.  
 
 # To deploy etcd3 on AWS EC2 instances
 The following are required  before you install ectd3:
 1. Have your EC2 instances up and running.
-2. Configure your Security Group for your EC2 instances to allow TCP inbound for ports 2379 and 2380 for external communication and between EC2 instances communcation.
+2. Configure your Security Group for your EC2 instances to allow TCP inbound for ports 2379 and 2380 for external communication and between EC2 instances communication.
 3. The private key for ssh access to your EC2 instances.
 
 ## Configure inventory file
@@ -42,7 +42,7 @@ ec2-34-215-192-46.us-west-2.compute.amazonaws.com ip=34.215.192.46 private_etcd_
 ```
 ## Configure remote_user in etcd3.yml 
 Have `remote_user: ec2-user`
-## Deploy etcd3
+## Deploy etcd3 on EC2
 `/amazon/yourkeypair.pem` is my private key.
 
 Execute:
@@ -54,7 +54,7 @@ The following are required  before you install ectd3:
 1. Your VMs or machines are up.
 2. Configure your firewall to allow TCP inbound for ports 2379 and 2380 for external communication and between machines communication. I disabled the firewall.
 
-## Configure inventory file with 1 network interface
+## Scenario 1: configure inventory file with 1 network interface
 The example below tells installation script to install etcd on 70.0.51.x. `ansible_ssh_user` and `ansible_ssh_pass` are the ssh user name and password to all these VMs.
 ```
 # cat inv_vmpublicip.yml
@@ -67,8 +67,8 @@ vm15 ip=7.0.51.15
 ansible_ssh_user=root
 ansible_ssh_pass=Password
 ```
-## Configure inventory file with multiple network interfaces
-The example below tells installation script to install etcd on 7.0.51.x. `ansible_ssh_user` and `ansible_ssh_pass` are the ssh user name and password to all these VMs.
+## Scenario 2: configure inventory file with multiple network interfaces
+The example below tells installation script to install etcd on 192.168.9.x. `ansible_ssh_user` and `ansible_ssh_pass` are the ssh user name and password to all these VMs.
 
 ```
 # cat inv_vmpriviateip.yml
@@ -80,4 +80,10 @@ vm15 ip=7.0.51.15 private_etcd_ip=192.168.9.15
 [all:vars]
 ansible_ssh_user=root
 ansible_ssh_pass=Password
+```
+## Deploy etcd3 on VMs
+Execute the following: `inv.yml.vmprivateip` is my inventory file.
+
+```
+ansible-playbook -i inv.yml.vmprivateip etcd3.yml
 ```

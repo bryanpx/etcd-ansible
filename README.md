@@ -12,6 +12,7 @@ Modify `/etc/ansible/ansible.cfg` to have the following:
 
 # Inventory file format
 ```
+[nodes]
 <hostname> ip=<public_ip> private_etcd_ip=<private_ip>
 <hostname> ip=<public_ip> private_etcd_ip=<private_ip>
 ...

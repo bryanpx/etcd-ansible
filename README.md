@@ -16,7 +16,7 @@ Modify `/etc/ansible/ansible.cfg` to have the following:
 <hostname> ip=<public_ip> private_etcd_ip=<private_ip>
 ...
 ```
-`Hostname` is hostname of a machine and is required.
+`Hostname` is hostname of a machine and is required. The `hostname` needs to be resolved to the `ip` below.
 
 `Ip` is the public ip of the machine and is required. 
 

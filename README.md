@@ -29,7 +29,7 @@ The following are required  before you install ectd3:
 3. The private key for ssh access to your EC2 instances.
 
 ## Configure inventory file
-Use public hostnames for your EC2 instances. Use public ip for `ip` and private ip `private_etcd_ip`. 
+Use public hostnames for your EC2 instances. Use public ip for `ip` and private ip `private_etcd_ip`. You cannot use public ip for etcd installation because the EC2 instances do not have public network interfaces inside them.
 
 The example below tells installation script to use 172.xx.xx.xx for the ectd installation.
 

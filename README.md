@@ -1,10 +1,12 @@
 I tested the etcd deployment on host machines with Centos 7.3 and 7.4. I provided `inv_ec2.yml`, `inv_vmpriviateip.yml` and `inv_vmpublicip.yml` as sample inventory files for AWS EC2 and VMs for different scenarios that you need to modify for your environment.
 
+I run the etc3 deployment on a control machine (i.e. desktop) that is external to EC2 or VMs cluster.
+
 # Prerequisites
 * Ansible: I used ansible 2.3.2.0 on my control machine.
 
 # Ansible configuration
-Modify /etc/ansible/ansible.cfg to have the following:
+Modify `/etc/ansible/ansible.cfg` to have the following:
 
 `host_key_checking = False`
 
@@ -87,3 +89,18 @@ Execute the following: `inv.yml.vmprivateip` is my inventory file.
 ```
 ansible-playbook -i inv.yml.vmprivateip etcd3.yml
 ```
+
+# Validate your etcd3 installation
+Log into one node in the cluster and execute the following:
+```
+ETCDCTL_API=3 etcdctl --endpoints=[http:<etcd_ip1>:2379,http:<etcd_ip2>:2379,http:<etcd_ip3>:2379] endpoint health
+```
+
+Assume that i ran etcd3 deployment for the above scenario 1. The following was the output:
+```
+[root@vm13 ~]# ETCDCTL_API=3 etcdctl --endpoints=[http://7.0.51.15:2379,http://7.0.51.14:2379,http://7.0.51.13:2379] endpoint health
+http://7.0.51.13:2379 is healthy: successfully committed proposal: took = 5.505335ms
+http://7.0.51.15:2379 is healthy: successfully committed proposal: took = 6.67032ms
+http://7.0.51.14:2379 is healthy: successfully committed proposal: took = 5.818657ms
+```
+
